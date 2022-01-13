@@ -16,6 +16,25 @@ export default {
   components: {
     Header,
     Footer
+  },
+
+  mounted() {
+    let step = parseInt(localStorage.getItem('step'))
+
+    this.$store.dispatch('setStep', step)
+
+    switch (step) {
+      case 1:
+        this.$router.push({name: 'home'})
+        break;
+      case 2:
+        this.$router.push({name: 'room'})
+        break;
+      case 3:
+
+        break;
+    }
+
   }
 }
 </script>

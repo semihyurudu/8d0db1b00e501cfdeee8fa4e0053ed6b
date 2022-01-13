@@ -5,10 +5,10 @@ import store from "./store";
 import './assets/tailwind.css'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faCalendarAlt, faBed, faCreditCard } from '@fortawesome/free-solid-svg-icons'
+import { faCalendarAlt, faBed, faCreditCard, faAngleDoubleLeft, faAngleDoubleRight } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-library.add(faCalendarAlt, faBed, faCreditCard)
+library.add(faCalendarAlt, faBed, faCreditCard, faAngleDoubleLeft, faAngleDoubleRight)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 Vue.config.productionTip = false

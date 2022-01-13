@@ -9,6 +9,11 @@ export default new Router({
       path: "/",
       name: "home",
       component: () => import("@/components/layouts/Home")
+    },
+    {
+      path: "/room",
+      name: "room",
+      component: () => import("@/components/layouts/Room")
     }
   ]
 });

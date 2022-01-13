@@ -4,7 +4,7 @@
 
       <Logo />
 
-      <button class="bg-white text-blue-900 font-bold py-1 px-2 rounded text-sm">
+      <button class="bg-white hover:bg-gray-100 text-blue-900 font-bold py-1 px-2 rounded text-sm">
         Yeni Rezervasyon Yap
       </button>
 
