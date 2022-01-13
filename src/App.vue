@@ -27,6 +27,13 @@ export default {
 }
 main {
   min-height: calc(100vh - 141px);
-  padding: 50px
+  padding: 20px
 }
+
+@media (min-width: 1024px) {
+  main {
+    padding: 50px
+  }
+}
+
 </style>
