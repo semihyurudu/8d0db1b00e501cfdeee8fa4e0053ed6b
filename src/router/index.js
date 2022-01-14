@@ -14,6 +14,11 @@ export default new Router({
       path: "/room",
       name: "room",
       component: () => import("@/components/layouts/Room")
+    },
+    {
+      path: "/payment",
+      name: "payment",
+      component: () => import("@/components/layouts/PaymentPage")
     }
   ]
 });

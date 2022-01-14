@@ -28,7 +28,7 @@
               <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
             </div>
           </div>
-          <p v-if="errors.hotel_id" class="text-red-500 text-xs italic mt-3">Lütfen otel seçiniz.</p>
+          <p v-if="errors.hotel_id" class="text-red-500 text-sm italic mt-3">Lütfen otel seçiniz.</p>
 
 
 
@@ -39,7 +39,7 @@
                   Giriş Tarihi
                 </label>
                 <date-picker v-model="start_date" :change="checkSingleValidation('start_date')" class="w-full" valueType="format" placeholder="Giriş tarihi seçiniz."></date-picker>
-                <p v-if="errors.start_date" class="text-red-500 text-xs italic mt-3">Lütfen giriş tarihi seçiniz.</p>
+                <p v-if="errors.start_date" class="text-red-500 text-sm italic mt-3">Lütfen giriş tarihi seçiniz.</p>
               </div>
             </div>
 
@@ -49,7 +49,8 @@
                   Çıkış Tarihi
                 </label>
                 <date-picker v-model="end_date" :change="checkSingleValidation('end_date')" class="w-full" valueType="format" placeholder="Çıkış tarihi seçiniz."></date-picker>
-                <p v-if="errors.end_date" class="text-red-500 text-xs italic mt-3">Lütfen çıkış tarihi seçiniz.</p>
+                <p v-if="errors.end_date" class="text-red-500 text-sm italic mt-3">Lütfen çıkış tarihi seçiniz.</p>
+                <p v-if="date_error" class="text-red-500 text-sm italic mt-3">Çıkış tarihi giriş tarihinden büyük olmalıdır.</p>
               </div>
             </div>
 
@@ -67,7 +68,7 @@
                     v-model="adult"
                     @keyup="checkSingleValidation('adult')"
                 />
-                <p v-if="errors.adult" class="text-red-500 text-xs italic mt-3">Lütfen yetişkin sayısı giriniz.</p>
+                <p v-if="errors.adult" class="text-red-500 text-sm italic mt-3">Lütfen yetişkin sayısı giriniz.</p>
               </div>
             </div>
 
@@ -82,13 +83,13 @@
                     class="appearance-none block w-full text-gray-700 border hover:border-blue-400 rounded py-2 text-sm px-3 leading-tight focus:outline-none"
                     id="number-of-children"
                     type="number"
-                    placeholder="Yetişkin sayısı giriniz."
+                    placeholder="Çocuk sayısı giriniz."
                     :max="5"
                     :class="[(selected_hotel.id && !selected_hotel.child_status) && 'pointer-events-none']"
                     v-model="child"
                 />
-                <p v-if="errors.child" class="text-red-500 text-xs italic mt-3">Lütfen çocuk sayısı giriniz.</p>
-                <p v-if="(selected_hotel.id && !selected_hotel.child_status)" class="text-red-500 text-xs italic mt-3">Çocuk ziyaretçi kabul edilmiyor!</p>
+                <p v-if="errors.child" class="text-red-500 text-sm italic mt-3">Lütfen çocuk sayısı giriniz.</p>
+                <p v-if="(selected_hotel.id && !selected_hotel.child_status)" class="text-red-500 text-sm italic mt-3">Çocuk ziyaretçi kabul edilmiyor!</p>
               </div>
             </div>
           </div>
@@ -110,16 +111,20 @@
 import { mapGetters } from "vuex"
 import { axiosInstance } from "@/plugins/services";
 import Steps from "@/components/partials/Steps/Steps";
-
+import { helper } from "@/mixins/helper.js"
 import DatePicker from 'vue2-datepicker';
 import 'vue2-datepicker/index.css';
 
 
 export default {
   name: "home",
+
+  mixins: [helper],
+
   components: {
     Steps, DatePicker
   },
+
   computed: {
     ...mapGetters({
       hotel_list: "hotel_list",
@@ -194,6 +199,13 @@ export default {
         this.errors = {...this.errors, adult: true}
       }
 
+      if(this.dateDiff(this.start_date, this.end_date) < 1) {
+
+        this.date_error = true
+
+        validForm = false
+      }
+
       if(validForm) {
         this.saveForm()
       }
@@ -205,13 +217,18 @@ export default {
       if(this.errors[type] && this[type]) {
         this.errors = {...this.errors, [type]: false}
       }
+
+      if(type.includes("date")) {
+        this.date_error = this.dateDiff(this.start_date, this.end_date) < 1
+      }
+
     },
 
     saveForm() {
       let sel = document.getElementById("hotel_id")
 
       localStorage.setItem('step', '2')
-      localStorage.setItem('hotelAndDate', JSON.stringify({
+      localStorage.setItem('hotelInformation', JSON.stringify({
         hotel_id: this.hotel_id,
         hotel_name: sel.options[sel.selectedIndex].text,
         start_date: this.start_date,
@@ -234,25 +251,27 @@ export default {
       start_date: null,
       end_date: null,
       adult: "",
-      child: ""
+      child: "",
+      date_error: false
     }
   },
 
   async mounted() {
+
 
     if(!this.hotel_list.length) {
       const result = await axiosInstance.get('/hotels');
       await this.$store.dispatch('setHotelList', result.data)
     }
 
-    let hotelAndDate = JSON.parse(localStorage.getItem('hotelAndDate'))
+    let hotelInformation = JSON.parse(localStorage.getItem('hotelInformation'))
 
-    if(hotelAndDate !== null) {
-      this.hotel_id = hotelAndDate.hotel_id
-      this.start_date = hotelAndDate.start_date
-      this.end_date = hotelAndDate.end_date
-      this.adult = hotelAndDate.adult
-      this.child = hotelAndDate.child
+    if(hotelInformation !== null) {
+      this.hotel_id = hotelInformation.hotel_id
+      this.start_date = hotelInformation.start_date
+      this.end_date = hotelInformation.end_date
+      this.adult = hotelInformation.adult
+      this.child = hotelInformation.child
     }
 
   }

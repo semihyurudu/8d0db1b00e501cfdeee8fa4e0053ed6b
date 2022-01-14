@@ -4,7 +4,7 @@
 
       <Logo />
 
-      <button class="bg-white hover:bg-gray-100 text-blue-900 font-bold py-1 px-2 rounded text-sm">
+      <button class="bg-white hover:bg-gray-100 text-blue-900 font-bold py-1 px-2 rounded text-sm" @click="newReservation">
         Yeni Rezervasyon Yap
       </button>
 
@@ -17,6 +17,24 @@ import Logo from "@/components/partials/Logo";
 
 export default {
   name: "Header",
-  components: {Logo}
+
+  components: {
+    Logo
+  },
+
+  methods: {
+    newReservation() {
+      localStorage.removeItem('step')
+      localStorage.removeItem('hotelInformation')
+      this.$store.dispatch('resetFields')
+
+
+      if(this.$route.name === 'home') {
+        location.reload()
+      } else {
+        this.$router.push({name: 'home'})
+      }
+    }
+  }
 }
 </script>

@@ -19,20 +19,21 @@ export default {
   },
 
   mounted() {
-    let step = parseInt(localStorage.getItem('step'))
+    let step = localStorage.getItem('step')
 
-    this.$store.dispatch('setStep', step)
+    if(step !== null) {
+      this.$store.dispatch('setStep', step)
+      switch (parseInt(step)) {
+        case 1:
+          this.$router.push({name: 'home'})
+          break;
+        case 2:
+          this.$router.push({name: 'room'})
+          break;
+        case 3:
 
-    switch (step) {
-      case 1:
-        this.$router.push({name: 'home'})
-        break;
-      case 2:
-        this.$router.push({name: 'room'})
-        break;
-      case 3:
-
-        break;
+          break;
+      }
     }
 
   }
