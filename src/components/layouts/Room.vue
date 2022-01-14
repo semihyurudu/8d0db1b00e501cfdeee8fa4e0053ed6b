@@ -77,13 +77,13 @@ export default {
     ...mapGetters({
       selected_hotel: "selected_hotel",
       selected_room: "selected_room",
-      selected_scenic: "selected_scenic"
+      selected_scenic: "selected_scenic",
+      hotel_details: "hotel_details"
     })
   },
 
   async mounted() {
 
-    const result = await axiosInstance.get('/hotel-details');
     let hotelInformation = JSON.parse(localStorage.getItem('hotelInformation'))
 
     if(hotelInformation === null) {
@@ -91,8 +91,12 @@ export default {
       return false
     }
 
-    await this.$store.dispatch('setHotelDetails', result.data)
-    await this.$store.dispatch('setSelectedHotel', result.data.filter(x => x.id === hotelInformation.hotel_id)[0])
+    if(!this.selected_hotel || !this.hotel_details.length) {
+      const result = await axiosInstance.get('/hotel-details');
+
+      await this.$store.dispatch('setHotelDetails', result.data)
+      await this.$store.dispatch('setSelectedHotel', result.data.filter(x => x.id === hotelInformation.hotel_id)[0])
+    }
 
     this.current = hotelInformation
 

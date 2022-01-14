@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="w-full items-center bg-white p-2 rounded-md flex flex-col md:flex-row items-start justify-start">
-      <div class="w-full mr-2 mb-2 md:mb-0">
+      <div class="w-full md:mr-2 mb-2 md:mb-0 text-center">
         <input
             class="appearance-none block w-full text-gray-700 border hover:border-blue-400 rounded py-2 text-sm px-3 leading-tight focus:outline-none"
             id="coupon-code"
@@ -12,12 +12,13 @@
             v-if="!coupon_code"
         />
         <span class="text-sm leading-1" v-else>
-          <b class="font-semibold">{{coupon_code}}</b> numaralı kupon kodunuzda yer alan <b class="font-semibold">{{priceFormat(discount_amount)}}</b> indirim rezervasyon tutarınıza uygulandı!
+          <b class="font-semibold text-sm">{{priceFormat(discount_amount)}}</b> indirim rezervasyonunuza uygulandı!
         </span>
 
       </div>
 
       <button
+          type="button"
           class="bg-blue-900 hover:bg-blue-800 text-white font-bold p-2 rounded text-sm w-full"
           @click="setCouponCode"
           v-if="!coupon_code"
@@ -25,6 +26,7 @@
         Kodu Kullan
       </button>
       <button
+          type="button"
           class="bg-red-800 hover:bg-red-700 text-white font-bold p-2 rounded text-sm w-full"
           @click="removeCouponCode"
           v-else

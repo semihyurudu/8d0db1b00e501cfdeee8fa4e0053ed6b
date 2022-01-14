@@ -63,6 +63,7 @@
                     class="appearance-none block w-full text-gray-700 border hover:border-blue-400 rounded py-2 text-sm px-3 leading-tight focus:outline-none"
                     id="number-of-adults"
                     type="number"
+                    v-mask="'#'"
                     placeholder="Yetişkin sayısı giriniz."
                     :max="selected_hotel.max_adult_size"
                     v-model="adult"
@@ -83,6 +84,7 @@
                     class="appearance-none block w-full text-gray-700 border hover:border-blue-400 rounded py-2 text-sm px-3 leading-tight focus:outline-none"
                     id="number-of-children"
                     type="number"
+                    v-mask="'#'"
                     placeholder="Çocuk sayısı giriniz."
                     :max="5"
                     :class="[(selected_hotel.id && !selected_hotel.child_status) && 'pointer-events-none']"
@@ -229,6 +231,7 @@ export default {
 
       localStorage.setItem('step', '2')
       localStorage.setItem('hotelInformation', JSON.stringify({
+        ...JSON.parse(localStorage.getItem('hotelInformation')),
         hotel_id: this.hotel_id,
         hotel_name: sel.options[sel.selectedIndex].text,
         start_date: this.start_date,

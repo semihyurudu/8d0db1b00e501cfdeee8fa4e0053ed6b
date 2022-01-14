@@ -11,29 +11,26 @@
       <PreviewInfo title="Manzara" :value="getRoomScenicName" />
     </div>
 
-    <CouponCode class="mx-1" />
+    <CouponCode class="md:mx-1" v-if="page === 'payment'" />
 
-    <div class="mt-4 bg-white rounded-md mx-1">
+    <div class="bg-white rounded-md md:mx-1" :class="page === 'payment' ? 'mt-4' : 'mt-2'">
 
       <div class="flex flex-col text-sm leading-6 p-4">
 
         <div class="flex flex-row justify-between">
-          <span class="font-semibold">Oda Fiyatı <span class="font-normal">({{dateDiff(current.start_date, current.end_date)}} Gün)</span></span>
+          <span class="font-semibold">Oda Fiyatı</span>
           <span>{{priceFormat(current.price)}}</span>
         </div>
 
-
         <div class="flex flex-row justify-between">
-          <span class="font-semibold">Fiyat Etki Oranı <span class="font-normal">({{dateDiff(current.start_date, current.end_date)}} Gün)</span></span>
+          <span class="font-semibold">Fiyat Etki Oranı</span>
           <span>%{{current.price_rate}}</span>
         </div>
 
-
         <div class="flex flex-row justify-between">
-          <span class="font-semibold">Konaklama <span class="font-normal">({{dateDiff(current.start_date, current.end_date)}} Gün)</span></span>
-          <span>{{priceFormat(current.price * current.adult * dateDiff(current.start_date, current.end_date))}}</span>
+          <span class="font-semibold">Konaklama <span class="font-normal">({{getDateDiff}} Gün)</span></span>
+          <span>{{priceFormat(current.price * current.adult * getDateDiff)}}</span>
         </div>
-
 
         <div class="flex flex-row justify-between" v-if="coupon_code && discount_amount">
           <span class="font-semibold">İndirim <span class="font-normal">({{coupon_code}})</span></span>
@@ -44,19 +41,11 @@
       <div class="w-full preview-divider border-t border-gray-400 mb-3"></div>
 
       <div class="flex flex-col items-center">
-
         <span class="font-semibold text-sm">TOPLAM TUTAR</span>
         <span class="font-bold text-2xl mt-1 mb-4">{{priceFormat(getTotalPrice)}}</span>
-
-
       </div>
 
-
-
-
     </div>
-
-
 
   </div>
 </template>
@@ -80,6 +69,10 @@ export default {
   props: {
     current: {
       type: Object,
+      required: true
+    },
+    page: {
+      type: String,
       required: true
     }
   },
@@ -107,13 +100,17 @@ export default {
 
     getTotalPrice() {
 
-      let price = this.getPrice
+      let price = this.getTotalWithPercentage(this.current.price_rate, this.getPrice)
 
       if(this.coupon_code && this.discount_amount) {
         price = (price - this.discount_amount)
       }
 
       return price
+    },
+
+    getDateDiff() {
+      return this.dateDiff(this.current.start_date, this.current.end_date)
     }
   },
 

@@ -69,11 +69,13 @@
         </label>
         <input
             class="appearance-none block w-full text-gray-700 border hover:border-blue-400 rounded py-2 text-sm px-3 leading-tight focus:outline-none"
+            :class="[errors.card_name && 'border-red-400']"
             id="card-name"
             type="text"
             placeholder="Kart üzerindeki ismi giriniz..."
             v-model="card.card_name"
             @focus="val => setFocused(val, 'name')"
+            @keyup="val => checkValue(val, 'card_name')"
         />
         <p v-if="errors.card_name" class="text-red-500 text-sm italic mt-3">Lütfen kart üzerindeki ismi giriniz.</p>
       </div>
@@ -85,11 +87,14 @@
         </label>
         <input
             class="appearance-none block w-full text-gray-700 border hover:border-blue-400 rounded py-2 text-sm px-3 leading-tight focus:outline-none"
+            :class="[errors.card_number && 'border-red-400']"
             id="card-number"
             type="text"
             placeholder="Kart numarasını giriniz..."
             v-model="card.card_number"
+            v-mask="'#### #### #### ####'"
             @focus="val => setFocused(val, 'number')"
+            @keyup="val => checkValue(val, 'card_number')"
         />
         <p v-if="errors.card_number" class="text-red-500 text-sm italic mt-3">Lütfen kart numarasını giriniz.</p>
       </div>
@@ -109,9 +114,11 @@
                 <div class="inline-block relative w-full mb-3 md:mb-0">
                   <select
                       class="block appearance-none w-full bg-white text-gray-700 border hover:border-blue-400 px-4 py-2 pr-8 rounded leading-tight focus:outline-none focus:shadow-outline"
+                      :class="[errors.card_month && 'border-red-400']"
                       @focus="val => setFocused(val, 'month')"
                       v-model="card.card_month"
                       id="card-month"
+                      @change="val => checkValue(val, 'card_month')"
                   >
                     <option value="">Ay</option>
                     <option
@@ -132,9 +139,11 @@
                 <div class="inline-block relative w-full">
                   <select
                       class="block appearance-none w-full bg-white text-gray-700 border hover:border-blue-400 px-4 py-2 pr-8 rounded leading-tight focus:outline-none focus:shadow-outline"
+                      :class="[errors.card_year && 'border-red-400']"
                       @focus="val => setFocused(val, 'year')"
                       v-model="card.card_year"
                       id="card-year"
+                      @change="val => checkValue(val, 'card_year')"
                   >
                     <option value="">Yıl</option>
                     <option
@@ -151,8 +160,6 @@
                 <p v-if="errors.card_year" class="text-red-500 text-sm italic mt-3">Lütfen yıl seçiniz.</p>
               </div>
             </div>
-
-
           </div>
 
 
@@ -162,13 +169,16 @@
             </label>
             <input
                 class="appearance-none block w-full text-gray-700 border hover:border-blue-400 rounded py-2 text-sm px-3 leading-tight focus:outline-none"
+                :class="[errors.card_cvv && 'border-red-400']"
                 id="card-cvv"
-                type="number"
+                type="text"
                 placeholder="CVV giriniz..."
                 v-model="card.card_cvv"
+                v-mask="'###'"
                 @focus="val => setFocused(val, 'cvv')"
+                @keyup="val => checkValue(val, 'card_cvv')"
             />
-            <p v-if="errors.card_cvv" class="text-red-500 text-sm italic mt-3">Lütfen CVVgiriniz.</p>
+            <p v-if="errors.card_cvv" class="text-red-500 text-sm italic mt-3">Lütfen CVV giriniz.</p>
           </div>
 
         </div>
@@ -191,14 +201,15 @@ import { helper } from "@/mixins/helper.js"
 export default {
   name: "CreditCard",
 
-  components: {
-
-  },
-
   mixins: [helper],
 
   props: {
     card: {
+      type: Object,
+      required: true
+    },
+
+    errors: {
       type: Object,
       required: true
     }
@@ -208,7 +219,6 @@ export default {
     return {
       focusedItem: "",
       focused: "",
-      errors: {},
       card_months: [
         "01",
         "02",
@@ -246,6 +256,12 @@ export default {
       } else {
         this.focusedItem = ""
       }
+    },
+
+    checkValue(e, name) {
+      let value = e.target.value || ""
+      this.$emit('checkSingleValidation', {name, value})
+
     }
   }
 }

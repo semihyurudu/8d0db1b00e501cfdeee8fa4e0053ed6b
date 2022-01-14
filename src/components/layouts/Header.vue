@@ -26,6 +26,7 @@ export default {
     newReservation() {
       localStorage.removeItem('step')
       localStorage.removeItem('hotelInformation')
+      localStorage.removeItem('reservationId')
       this.$store.dispatch('resetFields')
 
 

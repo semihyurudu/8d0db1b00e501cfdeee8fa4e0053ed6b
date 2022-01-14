@@ -19,6 +19,11 @@ export default new Router({
       path: "/payment",
       name: "payment",
       component: () => import("@/components/layouts/PaymentPage")
+    },
+    {
+      path: "/success",
+      name: "success",
+      component: () => import("@/components/layouts/SuccessPage")
     }
   ]
 });

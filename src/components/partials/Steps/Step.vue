@@ -6,7 +6,7 @@
     ><font-awesome-icon :icon="icon" /></div>
 
     <div class="mt-3">
-      <span class="font-semibold text-sm" :class="[isActive ? 'text-gray-900' : 'text-gray-500']">{{title}}</span>
+      <span class="font-semibold text-xs md:text-sm" :class="[isActive ? 'text-gray-900' : 'text-gray-500']">{{title}}</span>
     </div>
   </div>
 </template>
@@ -44,12 +44,17 @@ export default {
 </script>
 
 <style>
-.step-item:not(:last-child)::after {
-  position: absolute;
-  content: "";
-  border-bottom: 1px solid #d2d6db;
-  width: 100%;
-  top: 30px;
-  left: 112px;
+
+@media (min-width: 1024px) {
+  .step-item:not(:last-child)::after {
+    position: absolute;
+    content: "";
+    border-bottom: 1px solid #d2d6db;
+    width: 100%;
+    top: 30px;
+    left: 112px;
+  }
 }
+
+
 </style>

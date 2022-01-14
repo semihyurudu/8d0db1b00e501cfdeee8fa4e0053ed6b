@@ -31,7 +31,10 @@ export default {
           this.$router.push({name: 'room'})
           break;
         case 3:
-
+          this.$router.push({name: 'payment'})
+          break;
+        case 4:
+          this.$router.push({name: 'success'})
           break;
       }
     }

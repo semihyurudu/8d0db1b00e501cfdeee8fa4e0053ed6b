@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full md:w-1/2 mx-1 flex flex-row justify-center text-sm items-center bg-white p-2 rounded-md mb-2 preview-info-item">
+  <div class="w-full md:w-1/2 md:mx-1 flex flex-row justify-center text-sm items-center bg-white p-2 rounded-md mb-2 preview-info-item">
     <span class="font-bold mr-2">{{title}}:</span>
     <span>{{value}}</span>
   </div>
