@@ -11,7 +11,7 @@
         <div class="p-6 border border-gray-200 rounded-md my-5">
           <div class="inline-block relative w-full">
             <select
-                class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+                class="block appearance-none w-full bg-white border border-gray-300 hover:border-blue-400 px-4 py-2 pr-8 rounded leading-tight focus:outline-none focus:shadow-outline"
                 @change="setHotel"
                 v-model="hotel_id"
                 id="hotel_id"
@@ -63,13 +63,13 @@
                     class="appearance-none block w-full text-gray-700 border hover:border-blue-400 rounded py-2 text-sm px-3 leading-tight focus:outline-none"
                     id="number-of-adults"
                     type="number"
-                    v-mask="'#'"
+                    v-mask="'##'"
                     placeholder="Yetişkin sayısı giriniz."
-                    :max="selected_hotel.max_adult_size"
                     v-model="adult"
                     @keyup="checkSingleValidation('adult')"
                 />
                 <p v-if="errors.adult" class="text-red-500 text-sm italic mt-3">Lütfen yetişkin sayısı giriniz.</p>
+                <p v-if="max_adult_size_error" class="text-red-500 text-sm italic mt-3">Maksimum {{selected_hotel.max_adult_size}} yetişkin kabul edilmektedir.</p>
               </div>
             </div>
 
@@ -86,12 +86,12 @@
                     type="number"
                     v-mask="'#'"
                     placeholder="Çocuk sayısı giriniz."
-                    :max="5"
                     :class="[(selected_hotel.id && !selected_hotel.child_status) && 'pointer-events-none']"
+                    @keyup="checkSingleValidation('child')"
                     v-model="child"
                 />
-                <p v-if="errors.child" class="text-red-500 text-sm italic mt-3">Lütfen çocuk sayısı giriniz.</p>
                 <p v-if="(selected_hotel.id && !selected_hotel.child_status)" class="text-red-500 text-sm italic mt-3">Çocuk ziyaretçi kabul edilmiyor!</p>
+                <p v-if="max_child_size_error" class="text-red-500 text-sm italic mt-3">Maksimum {{max_child_size}} çocuk kabul edilmektedir.</p>
               </div>
             </div>
           </div>
@@ -153,10 +153,7 @@ export default {
         await this.$store.dispatch('setSelectedHotel', this.hotel_details.filter(x => x.id === selectedId)[0])
 
         this.setChild()
-
-        if(this.adult && (this.adult > this.selected_hotel.max_adult_size)) {
-          this.adult = this.selected_hotel.max_adult_size
-        }
+        this.setAdult()
 
         return false
       }
@@ -167,6 +164,7 @@ export default {
       await this.$store.dispatch('setSelectedHotel', result.data.filter(x => x.id === selectedId)[0])
 
       this.setChild()
+      this.setAdult()
 
     },
     setChild() {
@@ -174,31 +172,26 @@ export default {
         this.child = ""
       } else if(!this.selected_hotel.child_status) {
         this.child = 0
+        this.max_child_size_error = false
+      }
+    },
+
+    setAdult() {
+      if(this.adult && (this.adult > this.selected_hotel.max_adult_size)) {
+        this.adult = this.selected_hotel.max_adult_size
       }
     },
 
     checkForm: function (e) {
 
-      let validForm = true;
+      let validForm = (this.hotel_id && this.start_date && this.end_date && this.adult);
 
-      if (!this.hotel_id) {
-        validForm = false
-        this.errors = {...this.errors, hotel_id: true}
-      }
-
-      if (!this.start_date) {
-        validForm = false
-        this.errors = {...this.errors, start_date: true}
-      }
-
-      if (!this.end_date) {
-        validForm = false
-        this.errors = {...this.errors, end_date: true}
-      }
-
-      if (!this.adult) {
-        validForm = false
-        this.errors = {...this.errors, adult: true}
+      this.errors = {
+        ...this.errors,
+        hotel_id: !this.hotel_id,
+        start_date: !this.start_date,
+        end_date: !this.end_date,
+        adult: !this.adult,
       }
 
       if(this.dateDiff(this.start_date, this.end_date) < 1) {
@@ -206,6 +199,22 @@ export default {
         this.date_error = true
 
         validForm = false
+      }
+
+      if(this.adult && (parseInt(this.adult) > this.selected_hotel.max_adult_size)) {
+
+        this.max_adult_size_error = true
+
+        validForm = false
+      }
+
+      if(this.child && (parseInt(this.child) > this.max_child_size)) {
+
+        this.max_child_size_error = true
+
+        validForm = false
+      } else if(!this.child || (this.max_child_size >= this.child)) {
+        this.max_child_size_error = false
       }
 
       if(validForm) {
@@ -222,6 +231,14 @@ export default {
 
       if(type.includes("date")) {
         this.date_error = this.dateDiff(this.start_date, this.end_date) < 1
+      }
+
+      if(type === 'adult' && this.selected_hotel) {
+        this.max_adult_size_error = parseInt(this.adult) > this.selected_hotel.max_adult_size
+      }
+
+      if(type === 'child' && this.selected_hotel) {
+        this.max_child_size_error = parseInt(this.child) > this.max_child_size
       }
 
     },
@@ -255,7 +272,10 @@ export default {
       end_date: null,
       adult: "",
       child: "",
-      date_error: false
+      date_error: false,
+      max_adult_size_error: false,
+      max_child_size_error: false,
+      max_child_size: 5
     }
   },
 

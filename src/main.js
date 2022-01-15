@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from "./router";
 import store from "./store";
 import './assets/tailwind.css'
+import VueConfirmDialog from 'vue-confirm-dialog'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import {
@@ -18,6 +19,9 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 import VueMask from 'v-mask'
 Vue.use(VueMask);
+
+Vue.use(VueConfirmDialog)
+Vue.component('vue-confirm-dialog', VueConfirmDialog.default)
 
 library.add(faCalendarAlt, faBed, faCreditCard, faAngleDoubleLeft, faAngleDoubleRight, faCalendarCheck, faCalendarTimes)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
