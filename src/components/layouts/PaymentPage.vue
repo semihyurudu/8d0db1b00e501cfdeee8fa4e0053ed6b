@@ -40,9 +40,12 @@ import Steps from "@/components/partials/StepList";
 import CreditCard from "@/components/partials/CreditCard"
 import PaymentPreview from "@/components/partials/PaymentPreview"
 import { mapGetters } from "vuex"
+import { helper } from "@/mixins/helper.js"
 
 export default {
   name: "PaymentPage",
+
+  mixins: [helper],
 
   computed: {
     ...mapGetters({
@@ -50,7 +53,15 @@ export default {
       discount_amount: "discount_amount",
       selected_hotel: "selected_hotel",
       hotel_details: "hotel_details"
-    })
+    }),
+
+    getPrice() {
+      return this.current.price * this.current.adult * this.dateDiff(this.current.start_date, this.current.end_date)
+    },
+
+    getTotalPrice() {
+      return this.getTotalWithPercentage(this.current.price_rate, this.getPrice)
+    }
   },
 
   components: {
@@ -146,7 +157,7 @@ export default {
         child: parseInt(this.current.child),
         room_type: parseInt(this.current.room_type),
         room_scenic: parseInt(this.current.room_scenic),
-        price: 0,
+        price: this.getTotalPrice,
         coupon_code: this.current.coupon_code,
         card_name: this.card.card_name,
         card_number: this.card.card_number.replaceAll(' ', ''),

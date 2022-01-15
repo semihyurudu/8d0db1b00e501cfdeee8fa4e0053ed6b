@@ -8,7 +8,7 @@
         <font-awesome-icon icon="calendar-check" class="text-green-600 text-6xl" v-if="!cancel_status" />
         <font-awesome-icon icon="calendar-times" class="text-red-600 text-6xl" v-else />
 
-        <h1 class="font-semibold text-xl my-5">Rezervasyon kaydınız {{cancel_status ? 'iptal edilmiştir' : 'alınmıştır'}}.</h1>
+        <h1 class="font-semibold text-xl my-5 text-center">Rezervasyon kaydınız {{cancel_status ? 'iptal edilmiştir' : 'alınmıştır'}}.</h1>
 
         <template v-if="cancel_status">
           <div class="flex flex-col justify-center items-center">
