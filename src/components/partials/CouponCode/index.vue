@@ -2,6 +2,7 @@
   <div>
     <div class="w-full items-center bg-white p-2 rounded-md flex flex-col md:flex-row items-start justify-start">
       <div class="w-full md:mr-2 mb-2 md:mb-0 text-center">
+        <form method="get" v-on:submit.prevent="setCouponCode">
         <input
             class="appearance-none block w-full text-gray-700 border hover:border-blue-400 rounded py-2 text-sm px-3 leading-tight focus:outline-none"
             id="coupon-code"
@@ -14,7 +15,7 @@
         <span class="text-sm leading-1" v-else>
           <b class="font-semibold text-sm">{{priceFormat(discount_amount)}}</b> indirim rezervasyonunuza uygulandı!
         </span>
-
+        </form>
       </div>
 
       <button
@@ -64,7 +65,8 @@ export default {
   },
 
   methods: {
-    async setCouponCode() {
+    async setCouponCode(e) {
+      if(e) e.preventDefault()
 
       if(!this.code) {
         this.error = true
@@ -93,20 +95,20 @@ export default {
         this.error = true
         this.error_message = "Kupon kodunuzun kullanım süresi dolmuştur."
       } else {
-
         await this.$store.dispatch('setCouponCode', result.data[0].code)
         await this.$store.dispatch('setDiscountAmount', result.data[0].discount_ammount)
-
-
       }
 
     },
 
     couponCodeKeyUp(e) {
+      if(e) e.preventDefault();
       if(e.target.value) {
         this.error = false
         this.error_message = ""
       }
+
+      e.preventDefault()
     },
 
     removeCouponCode() {

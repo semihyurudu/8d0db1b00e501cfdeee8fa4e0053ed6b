@@ -76,8 +76,8 @@ export default {
   computed: {
     ...mapGetters({
       selected_hotel: "selected_hotel",
-      selected_room: "selected_room",
-      selected_scenic: "selected_scenic",
+      selected_room_type: "selected_room_type",
+      selected_room_scenic: "selected_room_scenic",
       hotel_details: "hotel_details"
     })
   },
@@ -102,12 +102,12 @@ export default {
 
     if(hotelInformation.room_type) {
       this.roomTypeCheckbox = hotelInformation.room_type
-      await this.$store.dispatch('setSelectedRoom', this.roomTypeCheckbox)
+      await this.$store.dispatch('setSelectedRoomType', this.roomTypeCheckbox)
     }
 
     if(hotelInformation.room_scenic) {
       this.roomScenicCheckbox = hotelInformation.room_scenic
-      await this.$store.dispatch('setSelectedScenic', this.roomScenicCheckbox)
+      await this.$store.dispatch('setSelectedRoomScenic', this.roomScenicCheckbox)
     }
 
   },
@@ -119,25 +119,26 @@ export default {
     },
 
     checkForm() {
-      let validForm = this.selected_room && this.selected_scenic
+      let validForm = this.selected_room_type && this.selected_room_scenic
 
-      this.errors = {...this.errors, room_type: !this.selected_room}
-
-      this.errors = {...this.errors, room_scenic: !this.selected_scenic}
+      this.errors = {
+        ...this.errors,
+        room_type: !this.selected_room_type,
+        room_scenic: !this.selected_room_scenic
+      }
 
       if(validForm) {
 
         localStorage.setItem('step', '3')
         localStorage.setItem('hotelInformation', JSON.stringify({
           ...JSON.parse(localStorage.getItem('hotelInformation')),
-          room_type: this.selected_room,
-          room_scenic: this.selected_scenic,
-          price: this.selected_hotel.room_type.filter((x) => x.id === this.selected_room)[0].price,
-          price_rate: this.selected_hotel.room_scenic.filter((x) => x.id === this.selected_scenic)[0].price_rate
+          room_type: this.selected_room_type,
+          room_scenic: this.selected_room_scenic,
+          price: this.selected_hotel.room_type.filter((x) => x.id === this.selected_room_type)[0].price,
+          price_rate: this.selected_hotel.room_scenic.filter((x) => x.id === this.selected_room_scenic)[0].price_rate
         }))
 
         this.$router.push({ name: 'payment' })
-
         this.$store.dispatch('setStep', '3')
 
       }
@@ -146,13 +147,13 @@ export default {
 
     setRoom(id) {
       this.roomTypeCheckbox = id
-      this.$store.dispatch('setSelectedRoom', this.roomTypeCheckbox)
+      this.$store.dispatch('setSelectedRoomType', this.roomTypeCheckbox)
       this.errors = {...this.errors, room_type: false}
     },
 
     setScenic(id) {
       this.roomScenicCheckbox = id
-      this.$store.dispatch('setSelectedScenic', this.roomScenicCheckbox)
+      this.$store.dispatch('setSelectedRoomScenic', this.roomScenicCheckbox)
       this.errors = {...this.errors, room_scenic: false}
     }
   },

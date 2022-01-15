@@ -7,7 +7,6 @@
         @setScenic="(val) => setScenic(val)"
     />
   </div>
-
 </template>
 
 <script>
@@ -29,7 +28,6 @@ export default {
   },
 
   methods: {
-
     setScenic(id) {
       this.$emit('setScenic', id)
     }

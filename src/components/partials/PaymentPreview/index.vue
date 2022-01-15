@@ -80,18 +80,18 @@ export default {
   computed: {
     ...mapGetters({
       selected_hotel: "selected_hotel",
-      selected_room: "selected_room",
-      selected_scenic: "selected_scenic",
+      selected_room_type: "selected_room_type",
+      selected_room_scenic: "selected_room_scenic",
       coupon_code: "coupon_code",
       discount_amount: "discount_amount"
     }),
 
     getRoomTypeName() {
-      return this.selected_hotel.room_type.filter((x) => x.id === this.selected_room)[0].title
+      return this.selected_hotel.room_type.filter((x) => x.id === this.selected_room_type)[0].title
     },
 
     getRoomScenicName() {
-      return this.selected_hotel.room_scenic.filter((x) => x.id === this.selected_scenic)[0].title
+      return this.selected_hotel.room_scenic.filter((x) => x.id === this.selected_room_scenic)[0].title
     },
 
     getPrice() {
@@ -112,10 +112,6 @@ export default {
     getDateDiff() {
       return this.dateDiff(this.current.start_date, this.current.end_date)
     }
-  },
-
-  methods: {
-
   }
 }
 </script>

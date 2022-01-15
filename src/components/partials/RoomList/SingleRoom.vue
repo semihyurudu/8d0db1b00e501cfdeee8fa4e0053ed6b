@@ -51,11 +51,11 @@ export default {
 
   computed: {
     ...mapGetters({
-        selected_room: "selected_room"
+        selected_room_type: "selected_room_type"
     }),
 
     isActive() {
-      return parseInt(this.data.id) === parseInt(this.selected_room)
+      return parseInt(this.data.id) === parseInt(this.selected_room_type)
     }
   },
 
@@ -67,7 +67,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .single-room-item {
   flex: calc(33.33% - 10px);
 }
@@ -89,8 +89,10 @@ export default {
   .select-room-button {
     display: none;
   }
-  .single-room-item:hover .select-room-button {
-    display: block;
+  .single-room-item:hover {
+    .select-room-button {
+      display: block;
+    }
   }
 
 }

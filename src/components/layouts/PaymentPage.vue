@@ -80,8 +80,8 @@ export default {
       await this.$store.dispatch('setSelectedHotel', result.data.filter(x => x.id === hotelInformation.hotel_id)[0])
     }
 
-    await this.$store.dispatch('setSelectedRoom', hotelInformation.room_type)
-    await this.$store.dispatch('setSelectedScenic', hotelInformation.room_scenic)
+    await this.$store.dispatch('setSelectedRoomType', hotelInformation.room_type)
+    await this.$store.dispatch('setSelectedRoomScenic', hotelInformation.room_scenic)
 
     if(hotelInformation.coupon_code && hotelInformation.discount_amount) {
       await this.$store.dispatch('setCouponCode', hotelInformation.coupon_code)

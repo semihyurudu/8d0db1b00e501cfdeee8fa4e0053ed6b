@@ -30,8 +30,6 @@
           </div>
           <p v-if="errors.hotel_id" class="text-red-500 text-sm italic mt-3">Lütfen otel seçiniz.</p>
 
-
-
           <div class="mt-5 flex flex-col lg:flex-row flex-wrap border border-gray-400 rounded">
             <div class="border-b lg:border-b-0 border-r-0 lg:border-r border-gray-400 p-5 form-item">
               <div class="px-3">
@@ -86,7 +84,7 @@
                     type="number"
                     v-mask="'#'"
                     placeholder="Çocuk sayısı giriniz."
-                    :class="[(selected_hotel.id && !selected_hotel.child_status) && 'pointer-events-none']"
+                    :class="[(selected_hotel.id && !selected_hotel.child_status) && 'pointer-events-none opacity-75']"
                     @keyup="checkSingleValidation('child')"
                     v-model="child"
                 />
@@ -124,7 +122,8 @@ export default {
   mixins: [helper],
 
   components: {
-    Steps, DatePicker
+    Steps,
+    DatePicker
   },
 
   computed: {
@@ -134,7 +133,6 @@ export default {
       hotel_details: "hotel_details"
     })
   },
-
 
   methods: {
     async setHotel(event) {
@@ -195,23 +193,17 @@ export default {
       }
 
       if(this.dateDiff(this.start_date, this.end_date) < 1) {
-
         this.date_error = true
-
         validForm = false
       }
 
       if(this.adult && (parseInt(this.adult) > this.selected_hotel.max_adult_size)) {
-
         this.max_adult_size_error = true
-
         validForm = false
       }
 
       if(this.child && (parseInt(this.child) > this.max_child_size)) {
-
         this.max_child_size_error = true
-
         validForm = false
       } else if(!this.child || (this.max_child_size >= this.child)) {
         this.max_child_size_error = false
@@ -258,7 +250,6 @@ export default {
       }))
 
       this.$router.push({ name: 'room' })
-
       this.$store.dispatch('setStep', '2')
 
     }
@@ -280,7 +271,6 @@ export default {
   },
 
   async mounted() {
-
 
     if(!this.hotel_list.length) {
       const result = await axiosInstance.get('/hotels');
@@ -307,8 +297,5 @@ export default {
 }
 .mx-datepicker {
   width: 100% !important;
-}
-.form-item .pointer-events-none {
-  opacity: 0.6;
 }
 </style>

@@ -15,7 +15,7 @@ export const helper = {
     getCurrentDate: () => {
       return new Date().toISOString().slice(0, 10)
     },
-    getTotalWithPercentage(percent, total) {
+    getTotalWithPercentage: (percent, total) => {
       return total + (total / 100 * percent);
     }
   }

@@ -29,7 +29,6 @@ export default {
       localStorage.removeItem('reservationId')
       this.$store.dispatch('resetFields')
 
-
       if(this.$route.name === 'home') {
         location.reload()
       } else {

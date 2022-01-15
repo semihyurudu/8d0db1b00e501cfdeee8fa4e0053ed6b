@@ -43,18 +43,21 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 
 @media (min-width: 1024px) {
-  .step-item:not(:last-child)::after {
-    position: absolute;
-    content: "";
-    border-bottom: 1px solid #d2d6db;
-    width: 100%;
-    top: 30px;
-    left: 112px;
+  .step-item {
+    &:not(:last-child) {
+      &::after {
+        position: absolute;
+        content: "";
+        border-bottom: 1px solid #d2d6db;
+        width: 100%;
+        top: 30px;
+        left: 112px;
+      }
+    }
   }
 }
-
 
 </style>

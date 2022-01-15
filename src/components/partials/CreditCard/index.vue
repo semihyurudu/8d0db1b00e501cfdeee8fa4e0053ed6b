@@ -80,7 +80,6 @@
         <p v-if="errors.card_name" class="text-red-500 text-sm italic mt-3">Lütfen kart üzerindeki ismi giriniz.</p>
       </div>
 
-
       <div class="w-full mt-3">
         <label class="block tracking-wide text-gray-700 text-xs font-bold mb-2" for="card-number">
           Kart Numarası
@@ -162,7 +161,6 @@
             </div>
           </div>
 
-
           <div class="w-full md:w-1/3">
             <label class="block tracking-wide text-gray-700 text-xs font-bold mb-2" for="card-name">
               CVV
@@ -184,18 +182,12 @@
         </div>
       </div>
 
-
-
-
-
     </div>
 
   </div>
 </template>
 
 <script>
-
-
 import { helper } from "@/mixins/helper.js"
 
 export default {

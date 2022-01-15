@@ -46,11 +46,11 @@ export default {
 
   computed: {
     ...mapGetters({
-        selected_scenic: "selected_scenic"
+      selected_room_scenic: "selected_room_scenic"
     }),
 
     isActive() {
-      return parseInt(this.data.id) === parseInt(this.selected_scenic)
+      return parseInt(this.data.id) === parseInt(this.selected_room_scenic)
     }
   },
 
@@ -62,7 +62,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .single-scenic-item {
   flex: calc(33.33% - 10px);
 }
@@ -84,11 +84,11 @@ export default {
   .select-scenic-button {
     display: none;
   }
-  .single-scenic-item:hover .select-scenic-button {
-    display: block;
+  .single-scenic-item:hover {
+    .select-scenic-button {
+      display: block;
+    }
   }
-
 }
-
 
 </style>
