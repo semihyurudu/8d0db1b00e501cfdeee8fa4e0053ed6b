@@ -171,7 +171,9 @@ export default {
     },
 
     checkSingleValidation(data) {
-      this.errors = {...this.errors, [data.name]: !data.value}
+      if(data.value) {
+        this.errors = {...this.errors, [data.name]: false}
+      }
     },
 
     goToSuccessPage() {
