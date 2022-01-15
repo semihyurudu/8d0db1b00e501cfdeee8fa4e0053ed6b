@@ -58,9 +58,9 @@
 </template>
 
 <script>
-import Steps from "@/components/partials/Steps/Steps";
-import Rooms from "@/components/partials/Rooms/Rooms";
-import Scenic from "@/components/partials/Scenic/Scenic";
+import Steps from "@/components/partials/StepList";
+import Rooms from "@/components/partials/RoomList";
+import Scenic from "@/components/partials/ScenicList";
 import {axiosInstance} from "@/plugins/services";
 import { mapGetters } from "vuex"
 

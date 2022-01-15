@@ -36,7 +36,7 @@
 
 <script>
 import { axiosInstance } from "@/plugins/services";
-import Steps from "@/components/partials/Steps/Steps";
+import Steps from "@/components/partials/StepList";
 import CreditCard from "@/components/partials/CreditCard"
 import PaymentPreview from "@/components/partials/PaymentPreview"
 import { mapGetters } from "vuex"

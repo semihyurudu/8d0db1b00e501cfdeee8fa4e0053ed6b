@@ -13,7 +13,7 @@
 <script>
 
 import { mapGetters } from "vuex";
-import SingleRoom from "@/components/partials/Rooms/SingleRoom";
+import SingleRoom from "@/components/partials/RoomList/SingleRoom";
 
 export default {
   name: "Rooms",

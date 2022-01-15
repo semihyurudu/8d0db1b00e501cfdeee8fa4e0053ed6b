@@ -112,7 +112,7 @@
 <script>
 import { mapGetters } from "vuex"
 import { axiosInstance } from "@/plugins/services";
-import Steps from "@/components/partials/Steps/Steps";
+import Steps from "@/components/partials/StepList";
 import { helper } from "@/mixins/helper.js"
 import DatePicker from 'vue2-datepicker';
 import 'vue2-datepicker/index.css';

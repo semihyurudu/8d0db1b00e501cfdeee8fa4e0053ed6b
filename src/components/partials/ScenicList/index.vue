@@ -13,7 +13,7 @@
 <script>
 
 import { mapGetters } from "vuex";
-import SingleScenic from "@/components/partials/Scenic/SingleScenic";
+import SingleScenic from "@/components/partials/ScenicList/SingleScenic";
 
 export default {
   name: "Scenic",

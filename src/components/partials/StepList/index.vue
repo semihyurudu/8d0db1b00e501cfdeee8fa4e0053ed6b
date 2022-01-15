@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import Step from "@/components/partials/Steps/Step";
+import Step from "@/components/partials/StepList/SingleStep";
 export default {
   name: "Steps",
 
